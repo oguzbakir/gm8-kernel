@@ -875,11 +875,18 @@ retry_journal:
 	}
 
 	if (ret == -ENOSPC) {
+<<<<<<< HEAD
+=======
+		ext4_journal_stop(handle);
+>>>>>>> .
 		ret = ext4_da_convert_inline_data_to_extent(mapping,
 							    inode,
 							    flags,
 							    fsdata);
+<<<<<<< HEAD
 		ext4_journal_stop(handle);
+=======
+>>>>>>> .
 		if (ret == -ENOSPC &&
 		    ext4_should_retry_alloc(inode->i_sb, &retries))
 			goto retry_journal;
@@ -1845,6 +1852,7 @@ out:
 	return (error < 0 ? error : 0);
 }
 
+<<<<<<< HEAD
 /*
  * Called during xattr set, and if we can sparse space 'needed',
  * just create the extent tree evict the data to the outer block.
@@ -1881,6 +1889,8 @@ out:
 	return error;
 }
 
+=======
+>>>>>>> .
 void ext4_inline_data_truncate(struct inode *inode, int *has_inline)
 {
 	handle_t *handle;

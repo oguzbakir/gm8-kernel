@@ -1168,7 +1168,23 @@ static void mmc_sd_detect(struct mmc_host *host)
 		return;
 	}
 
+<<<<<<< HEAD
 	mmc_power_up(host, host->ocr_avail);
+=======
+
+	//CR2172022 add litao 
+	#ifdef CONFIG_MMC_BLOCK_DEFERRED_RESUME
+	if (mmc_bus_needs_resume(host))
+		mmc_resume_bus(host);
+	#endif
+
+	//add power on to SD card detect
+	mmc_power_up(host, host->ocr_avail);
+	// add end
+
+	//add power on to SD card detect
+
+>>>>>>> .
 
 	/*
 	 * Just check if our card has been removed.

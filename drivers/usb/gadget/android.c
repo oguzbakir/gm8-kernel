@@ -4034,11 +4034,42 @@ static int android_bind(struct usb_composite_dev *cdev)
 	device_desc.iProduct = id;
 
 	/* Default strings - should be updated by userspace */
+<<<<<<< HEAD
 	strlcpy(manufacturer_string, "Android",
 		sizeof(manufacturer_string) - 1);
 	strlcpy(product_string, "Android", sizeof(product_string) - 1);
 	strlcpy(serial_string, "0123456789ABCDEF", sizeof(serial_string) - 1);
 
+=======
+//add for MAC usb device name
+#ifdef CONFIG_BUILD_L2310_A01  
+	strlcpy(manufacturer_string, "Mara Z dual",
+		sizeof(manufacturer_string) - 1);
+	strlcpy(product_string, "Mara Z dual", sizeof(product_string) - 1);
+	strlcpy(serial_string, "0123456789ABCDEF", sizeof(serial_string) - 1);
+#endif
+
+#ifdef CONFIG_BUILD_L2310_B01  
+	strlcpy(manufacturer_string, "Mara Z",
+		sizeof(manufacturer_string) - 1);
+	strlcpy(product_string, "Mara Z", sizeof(product_string) - 1);
+	strlcpy(serial_string, "0123456789ABCDEF", sizeof(serial_string) - 1);
+#endif
+
+#ifdef CONFIG_BUILD_A01  
+	strlcpy(manufacturer_string, "GM 8 d",
+		sizeof(manufacturer_string) - 1);
+	strlcpy(product_string, "GM 8 d", sizeof(product_string) - 1);
+	strlcpy(serial_string, "0123456789ABCDEF", sizeof(serial_string) - 1);
+#endif
+
+#ifdef CONFIG_BUILD_B01
+	strlcpy(manufacturer_string, "GM 8",
+		sizeof(manufacturer_string) - 1);
+	strlcpy(product_string, "GM 8", sizeof(product_string) - 1);
+	strlcpy(serial_string, "0123456789ABCDEF", sizeof(serial_string) - 1);
+#endif
+>>>>>>> .
 	id = usb_string_id(cdev);
 	if (id < 0)
 		return id;

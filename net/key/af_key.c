@@ -196,6 +196,7 @@ static int pfkey_release(struct socket *sock)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int pfkey_broadcast_one(struct sk_buff *skb, struct sk_buff **skb2,
 			       gfp_t allocation, struct sock *sk)
 {
@@ -220,6 +221,25 @@ static int pfkey_broadcast_one(struct sk_buff *skb, struct sk_buff **skb2,
 		}
 	}
 	sock_put(sk);
+=======
+static int pfkey_broadcast_one(struct sk_buff *skb, gfp_t allocation,
+			       struct sock *sk)
+{
+	int err = -ENOBUFS;
+
+	if (atomic_read(&sk->sk_rmem_alloc) > sk->sk_rcvbuf)
+		return err;
+
+	skb = skb_clone(skb, allocation);
+
+	if (skb) {
+		skb_set_owner_r(skb, sk);
+		skb_queue_tail(&sk->sk_receive_queue, skb);
+		sk->sk_data_ready(sk);
+		err = 0;
+	}
+
+>>>>>>> .
 	return err;
 }
 
@@ -234,7 +254,10 @@ static int pfkey_broadcast(struct sk_buff *skb, gfp_t allocation,
 {
 	struct netns_pfkey *net_pfkey = net_generic(net, pfkey_net_id);
 	struct sock *sk;
+<<<<<<< HEAD
 	struct sk_buff *skb2 = NULL;
+=======
+>>>>>>> .
 	int err = -ESRCH;
 
 	/* XXX Do we need something like netlink_overrun?  I think
@@ -253,7 +276,11 @@ static int pfkey_broadcast(struct sk_buff *skb, gfp_t allocation,
 		 * socket.
 		 */
 		if (pfk->promisc)
+<<<<<<< HEAD
 			pfkey_broadcast_one(skb, &skb2, allocation, sk);
+=======
+			pfkey_broadcast_one(skb, allocation, sk);
+>>>>>>> .
 
 		/* the exact target will be processed later */
 		if (sk == one_sk)
@@ -268,7 +295,11 @@ static int pfkey_broadcast(struct sk_buff *skb, gfp_t allocation,
 				continue;
 		}
 
+<<<<<<< HEAD
 		err2 = pfkey_broadcast_one(skb, &skb2, allocation, sk);
+=======
+		err2 = pfkey_broadcast_one(skb, allocation, sk);
+>>>>>>> .
 
 		/* Error is cleare after succecful sending to at least one
 		 * registered KM */
@@ -278,9 +309,14 @@ static int pfkey_broadcast(struct sk_buff *skb, gfp_t allocation,
 	rcu_read_unlock();
 
 	if (one_sk != NULL)
+<<<<<<< HEAD
 		err = pfkey_broadcast_one(skb, &skb2, allocation, one_sk);
 
 	kfree_skb(skb2);
+=======
+		err = pfkey_broadcast_one(skb, allocation, one_sk);
+
+>>>>>>> .
 	kfree_skb(skb);
 	return err;
 }
